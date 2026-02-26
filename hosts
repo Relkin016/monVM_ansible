@@ -1,5 +1,5 @@
 [dev]
-testVM ansible_host=192.168.177.15
+testVM ansible_host="{{ testVM_ip }}"
 
 [prod]
-appVM ansible_host=192.168.177.12
+appVM ansible_host="{{ appVM_ip }}"
