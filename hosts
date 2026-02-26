@@ -1,0 +1,5 @@
+[testVMs]
+testVM ansible_host=192.168.177.15 ansible_user=root should_become=false
+
+[appVMs]
+appVM ansible_host=192.168.177.12
