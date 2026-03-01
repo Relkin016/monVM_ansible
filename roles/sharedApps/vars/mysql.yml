@@ -1,0 +1,3 @@
+mysql_dir: "{{ shared_apps_dir }}/mysql"
+mysql_backup_dir: "{{ mysql_dir }}/backup"
+mysql_data_dir: "{{ mysql_dir }}/data"

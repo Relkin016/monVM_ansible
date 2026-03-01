@@ -1,0 +1,25 @@
+- name: Create app dir in /opt
+  become: yes
+  file:
+    path: "{{ app_dir }}"
+    state: directory
+    owner: "{{ app_user }}"
+    group: "{{ app_group }}"
+    mode: '0755'
+
+- name: Setup index.php
+  copy: 
+    src: indexdev.php
+    dest: "{{ app_dir }}/indexdev.php"
+    owner: www-data 
+    group: www-data
+
+- name: Setup nginx conf file
+  copy: 
+    src: "{{ vhost_file }}"
+    dest: /etc/nginx/sites-available/default
+  notify: restart nginx
+
+- name: Setup app running file
+  copy:
+    src: "{{ docker_file }}"

@@ -1,0 +1,5 @@
+- name: Install MySQL
+  include_tasks: mysql.yml
+
+- name: Install nginx
+  include_tasks: nginx.yml

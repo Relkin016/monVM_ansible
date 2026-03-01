@@ -1,0 +1,16 @@
+- name: Install docker python library
+  ansible.builtin.pip:
+    name: docker
+
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: _docker_build
+  register: temp_dir
+
+- name: Copy build context to temp directory
+  ansible.builtin.copy:
+    src: mysql
+    dest: "{{ temp_dir.path }}/"
+    mode: '0755'
+  notify: Restore MySQL

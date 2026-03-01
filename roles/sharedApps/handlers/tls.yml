@@ -1,0 +1,13 @@
+- name: Copy prvt key
+  community.crypto.openssl_privatekey:
+    path: /etc/ssl/private/test.key
+    size: 4096
+    type: RSA
+    state: present
+  become: yes
+
+- name: Copy cert
+  file:
+    path: /etc/ssl/certs/test.pem
+    privatekey_path: /etc/ssl/private/test.key
+    provider: selfsigned

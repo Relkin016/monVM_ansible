@@ -1,0 +1,37 @@
+services:
+  proxy_nginx:
+    image: "{{ }}"
+    restart: unless-stopped
+    ports:
+      - ${SSL_PORT}:${SSL_PORT}
+      - ${HTTP_PORT}:${HTTP_PORT}
+    environment:
+      - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.tpl
+      - SSL_PORT=${SSL_PORT}
+      - HTTP_PORT=${HTTP_PORT}
+      - SSL_DIR=${SSL_DIR}
+      - CERT_FILE=${CERT_FILE}
+      - KEY_FILE=${KEY_FILE}
+    volumes:
+      - ${PROXY_FILE}:${DEFAULT_NGX_CONF_FILE}:ro
+      - ${HOST_SSL_DIR}/${CERT_FILE}:${SSL_DIR}/${CERT_FILE}:ro
+      - ${HOST_SSL_DIR}/${KEY_FILE}:${SSL_DIR}/${KEY_FILE}:ro
+    networks:
+      - ${NET_NAME}
+
+  mysql:
+    build: ../../ansibleRepo/ansible/roles/shared/files/mysql/.
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${USER_NAME}
+      MYSQL_PASSWORD: ${USER_PASS}
+    volumes:
+      - ${DB_DATA_LOCAL}:${DB_DATA_DOCKER}:rw
+    networks:
+      - ${NET_NAME}
+
+networks:
+  app_network:
+    external: true

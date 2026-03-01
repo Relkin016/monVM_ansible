@@ -1,0 +1,12 @@
+app_name: blue
+app_blue_dir: "/opt/app-{{ app_name }}/"
+app_blue_config: "{{ app_blue_dir }}/config/vhost.tpl"
+index_file: index.php
+app_image: nginx:latest
+app_port: 80
+fpm_host:
+fpm_port: 9000
+net_name: app_network
+
+dflt_ngx_conf_file:
+

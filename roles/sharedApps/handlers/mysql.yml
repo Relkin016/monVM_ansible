@@ -1,0 +1,14 @@
+- name: Build Docker image
+  community.docker.docker_image:
+    name: my_app:{{ ansible_date_time.epoch }}
+    build:
+      path: "{{ temp_dir.path }}"
+    source: build
+    state: present
+
+
+- name: Remove temporary build directory
+  ansible.builtin.file:
+    path: "{{ temp_dir.path }}"
+    state: absent
+  when: temp_dir.path is defined

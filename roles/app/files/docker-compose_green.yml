@@ -1,0 +1,35 @@
+services:
+  app_green:
+    image: ${IMAGE}
+    depends_on:
+      - fpm_green
+    environment:
+#      - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.tpl
+      - PORT=${HTTP_PORT}
+      - FPM_HOST=${FPM_HOSTNAME_GREEN}
+      - FPM_PORT=${FPM_PORT}
+    volumes:
+      - ${APP_GREEN_FILE}:${DEFAULT_NGX_CONF_FILE}:ro
+      - ${PHP_GREEN_FILE}:${PHP_CONF_FILE}:ro
+    networks:
+      - ${NET_NAME}
+
+  fpm_green:
+    build:
+      context: ../../app-green/files
+      args:
+        - PHP_DIR=${PHP_DIR}
+        - FPM_PORT=${FPM_PORT}
+    environment:
+      - DB_PASS=${DB_PASS}
+      - DB_USER=${DB_USER}
+      - DB_NAME=${DB_NAME}
+      - DB_TABLE=${DB_TABLE}
+      - DB_HOST=${DB_HOST}
+    volumes:
+      - ${PHP_GREEN_FILE}:${PHP_CONF_FILE}:rw
+    networks:
+      - ${NET_NAME}
+networks:
+  app_network:
+    external: true

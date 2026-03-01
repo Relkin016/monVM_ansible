@@ -1,0 +1,36 @@
+services:
+  app_blue:
+    image: "{{ app_image }}"
+    depends_on:
+      - fpm_blue
+    environment:
+#      - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.tpl.dev
+      - PORT="{{ app_port }}"
+      - FPM_HOST="{{ fpm_host }}"
+      - FPM_PORT="{{ fpm_port }}"
+    volumes:
+      - "{{ app_blue_config }}":"{{ dflt_ngx_conf_file }}":ro
+      - "{{ php_file }}":"{{ php_conf_file }}":ro
+    networks:
+      - "{{ net_name }}"
+
+  fpm_blue:
+    build:
+      context: .
+      args:
+        - PHP_DIR=${PHP_DIR}
+        - FPM_PORT=${FPM_PORT}
+    environment:
+      - DB_PASS=${DB_PASS}
+      - DB_USER=${DB_USER}
+      - DB_NAME=${DB_NAME}
+      - DB_TABLE=${DB_TABLE}
+      - DB_HOST=${DB_HOST}
+    volumes:
+      - ${PHP_BLUE_FILE}:${PHP_CONF_FILE}:rw
+    networks:
+      - "{{ net_name }}"
+
+networks:
+  "{{ net_name }}":
+    external: true
