@@ -2,5 +2,5 @@
   remote_user: ansible
   become: "{{ should_become | default(yes) }}"
   roles:
-    - shared
+    - host
 #    - app

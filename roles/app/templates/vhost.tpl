@@ -1,0 +1,20 @@
+server {
+    listen ${PORT};
+    add_header X-Backend-Server "I am GREEN" always;    
+    root /usr/share/nginx/html/;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+#        include snippets/fastcgi-php.conf;
+        fastcgi_pass ${FPM_HOST}:${FPM_PORT}; 
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+    location ~ /\.ht {
+        deny all;
+    }
+}
