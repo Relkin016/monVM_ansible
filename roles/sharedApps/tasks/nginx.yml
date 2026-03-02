@@ -1,0 +1,11 @@
+- name: Setup proxy conf file
+  template:
+    src: "nginx/{{ proxy_app_conf }}"
+    dest: "{{ proxy_app_conf_dir }}/{{ proxy_app_conf }}"
+  state: present
+
+- name: Setup SSL files
+  copy:
+    src: nginx/ssl/
+    dest: "{{ host_ssl_dir }}/"
+  state: present

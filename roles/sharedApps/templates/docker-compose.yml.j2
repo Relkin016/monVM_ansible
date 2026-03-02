@@ -13,8 +13,8 @@ services:
       - CERT_FILE="{{ cert_name }}.pub"
       - KEY_FILE="{{ key_name}}.key"
     volumes:
-      - ${PROXY_FILE}:/etc/nginx/conf.d:ro
-      - ${HOST_SSL_DIR}/:"{{ ssl_dir }}"/:ro
+      - "{{ proxy_app_conf_dir }}":/etc/nginx/conf.d:ro
+      - "{{ proxy_app_dir }}"/:"{{ ssl_dir }}"/:ro
     networks:
       - "{{ net_name }}"
     depends_on: mysql

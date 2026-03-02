@@ -1,3 +1,7 @@
+proxy_app_dir: "{{ shared_apps_dir }}/nginx"
+proxy_app_conf_dir: "{{ proxy_app_dir }}/confs"
 proxy_app_image: nginx:latest
 proxy_app_file_extention: .tpl
+proxy_app_conf: "proxy.{{ proxy_app_file_extention }}"
 ssl_dir: /etc/nginx/ssl/
+host_ssl_dir: "{{ proxy_app_dir }}/ssl"
