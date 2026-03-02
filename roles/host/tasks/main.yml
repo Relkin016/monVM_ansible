@@ -1,0 +1,8 @@
+- name: Add user
+  include_tasks: user.yml
+
+- name: Install SSH
+  include_tasks: ssh.yml
+
+- name: Install Docker
+  include_tasks: docker.yml
