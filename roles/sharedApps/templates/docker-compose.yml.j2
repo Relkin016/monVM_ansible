@@ -20,13 +20,13 @@ services:
       - ${NET_NAME}
 
   mysql:
-    build: ../../ansibleRepo/ansible/roles/shared/files/mysql/.
+    image: "{{ mysql_image_name }}"
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${USER_NAME}
-      MYSQL_PASSWORD: ${USER_PASS}
+      MYSQL_ROOT_PASSWORD: "{{ mysql_root_pass }}"
+      MYSQL_DATABASE: "{{ mysql_db_name }}"
+      MYSQL_USER: "{{ mysql_user }}"
+      MYSQL_PASSWORD: "{{ mysql_user_pass }}"
     volumes:
       - ${DB_DATA_LOCAL}:${DB_DATA_DOCKER}:rw
     networks:
