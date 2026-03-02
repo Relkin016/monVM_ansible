@@ -1,2 +1,6 @@
 - name: Setup UFW
   import_tasks: ufw.yml
+
+- name: Get TLS
+  import_tasks: tls.yml
+  listen: Setup TLS

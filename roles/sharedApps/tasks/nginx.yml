@@ -5,18 +5,5 @@
     state: directory
     mode: '644'
     recurse: yes
-
-- name: Setup SSL files
-  copy:
-    src: nginx/ssl/
-    dest: "{{ host_ssl_dir }}/"
-    state: directory
-    mode: '600'
-    recurse: yes
-
-- name: Setup ssl cert privs
-  file:
-    path: "{{ host_ssl_dir }}/{{ cert_name }}.pub"
-    mode: '0644'
-    state: file
+  notify: Setup TLS
 
