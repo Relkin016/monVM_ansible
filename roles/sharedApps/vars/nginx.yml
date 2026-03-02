@@ -1,0 +1,4 @@
+proxy_app_image: nginx:latest
+proxy_app_file_extention: .tpl
+ssl_port: 443
+http_port: 80

@@ -1,14 +1,14 @@
 services:
   proxy_nginx:
-    image: "{{ }}"
+    image: "{{ proxy_app_image }}"
     restart: unless-stopped
     ports:
-      - ${SSL_PORT}:${SSL_PORT}
-      - ${HTTP_PORT}:${HTTP_PORT}
+      - "{{ ssl_port }}":"{{ ssl_port }}"
+      - "{{ http_port }}":"{{ http_port }}"
     environment:
-      - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.tpl
-      - SSL_PORT=${SSL_PORT}
-      - HTTP_PORT=${HTTP_PORT}
+      - NGINX_ENVSUBST_TEMPLATE_SUFFIX="{{ proxy_app_file_extention }}"
+      - SSL_PORT="{{ ssl_port }}"
+      - HTTP_PORT="{{ http_port }}"
       - SSL_DIR=${SSL_DIR}
       - CERT_FILE=${CERT_FILE}
       - KEY_FILE=${KEY_FILE}
