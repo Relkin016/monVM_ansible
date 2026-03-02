@@ -1,6 +1,6 @@
 upstream backend {
-    server env-app_blue-1:${HTTP_PORT} max_fails=1 fail_timeout=30s;
-    server env-app_green-1:${HTTP_PORT} backup;
+    server ${CONTAINER_1_NAME}:${HTTP_PORT} max_fails=1 fail_timeout=30s;
+    server ${CONTAINER_2_NAME}:${HTTP_PORT} backup;
 }
 
 server {
@@ -9,7 +9,7 @@ server {
 }
 
 server {
-    listen ${SSL_PORT} ssl;
+    listen ${HTTPS_PORT} ssl;
 
     ssl_certificate     ${SSL_DIR}/${CERT_FILE};
     ssl_certificate_key ${SSL_DIR}/${KEY_FILE};

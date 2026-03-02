@@ -3,11 +3,11 @@ services:
     image: "{{ proxy_app_image }}"
     restart: unless-stopped
     ports:
-      - "{{ ssl_port }}":"{{ ssl_port }}"
+      - "{{ https_port }}":"{{ https_port }}"
       - "{{ http_port }}":"{{ http_port }}"
     environment:
       - NGINX_ENVSUBST_TEMPLATE_SUFFIX="{{ proxy_app_file_extention }}"
-      - SSL_PORT="{{ ssl_port }}"
+      - HTTPS_PORT="{{ https_port }}"
       - HTTP_PORT="{{ http_port }}"
       - SSL_DIR="{{ ssl_dir }}"
       - CERT_FILE="{{ cert_name }}.pub"
