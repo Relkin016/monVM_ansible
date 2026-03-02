@@ -13,4 +13,6 @@
     src: mysql
     dest: "{{ temp_dir.path }}/"
     mode: '0755'
-  notify: Restore MySQL
+  notify:
+    - Restore MySQL
+    - UFW MySQL
