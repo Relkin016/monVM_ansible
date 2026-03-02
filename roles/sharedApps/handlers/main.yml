@@ -1,6 +1,2 @@
-- name: Restore MySQL
-  import_tasks: mysql.yml
-  listen: Restore MySQL
-
 - name: Setup UFW
   import_tasks: ufw.yml

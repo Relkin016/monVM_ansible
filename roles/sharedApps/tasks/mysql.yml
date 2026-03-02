@@ -1,7 +1,3 @@
-- name: Install docker python library
-  ansible.builtin.pip:
-    name: docker
-
 - name: Create temporary build directory
   ansible.builtin.tempfile:
     state: directory
@@ -10,9 +6,22 @@
 
 - name: Copy build context to temp directory
   ansible.builtin.copy:
-    src: mysql
+    src: mysql/
     dest: "{{ temp_dir.path }}/"
     mode: '0755'
+
+- name: Build Docker image
+  community.docker.docker_image:
+    name: "{{ mysql_image_name }}:{{ ansible_date_time.epoch }}"
+    build:
+      path: "{{ temp_dir.path }}"
+    source: build
+    state: present
+
+- name: Remove temporary build directory
+  ansible.builtin.file:
+    path: "{{ temp_dir.path }}"
+    state: absent
+  when: temp_dir.path is defined
   notify:
-    - Restore MySQL
     - UFW MySQL

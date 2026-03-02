@@ -9,13 +9,12 @@ services:
       - NGINX_ENVSUBST_TEMPLATE_SUFFIX="{{ proxy_app_file_extention }}"
       - SSL_PORT="{{ ssl_port }}"
       - HTTP_PORT="{{ http_port }}"
-      - SSL_DIR=${SSL_DIR}
-      - CERT_FILE=${CERT_FILE}
-      - KEY_FILE=${KEY_FILE}
+      - SSL_DIR="{{ ssl_dir }}"
+      - CERT_FILE="{{ cert_name }}.pub"
+      - KEY_FILE="{{ key_name}}.key"
     volumes:
-      - ${PROXY_FILE}:${DEFAULT_NGX_CONF_FILE}:ro
-      - ${HOST_SSL_DIR}/${CERT_FILE}:${SSL_DIR}/${CERT_FILE}:ro
-      - ${HOST_SSL_DIR}/${KEY_FILE}:${SSL_DIR}/${KEY_FILE}:ro
+      - ${PROXY_FILE}:/etc/nginx/conf.d:ro
+      - ${HOST_SSL_DIR}/:"{{ ssl_dir }}"/:ro
     networks:
       - "{{ net_name }}"
     depends_on: mysql
