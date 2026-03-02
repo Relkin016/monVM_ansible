@@ -12,3 +12,12 @@
     name: docker
     enabled: yes
     state: started
+
+- name: Create custom docker network
+  community.docker.docker_network:
+    name: "{{ net_name }}"
+    driver: bridge
+    ipam_config:
+      - subnet: "{{ docker_network }}.0/24"
+        gateway: "{{ docker_network }}.1"
+    state: present

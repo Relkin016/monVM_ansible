@@ -17,7 +17,8 @@ services:
       - ${HOST_SSL_DIR}/${CERT_FILE}:${SSL_DIR}/${CERT_FILE}:ro
       - ${HOST_SSL_DIR}/${KEY_FILE}:${SSL_DIR}/${KEY_FILE}:ro
     networks:
-      - ${NET_NAME}
+      - "{{ net_name }}"
+    depends_on: mysql
 
   mysql:
     image: "{{ mysql_image_name }}"
@@ -28,10 +29,10 @@ services:
       MYSQL_USER: "{{ mysql_user }}"
       MYSQL_PASSWORD: "{{ mysql_user_pass }}"
     volumes:
-      - ${DB_DATA_LOCAL}:${DB_DATA_DOCKER}:rw
+      - "{{ mysql_data_dir }}":/var/lib/mysql:rw
     networks:
-      - ${NET_NAME}
+      - "{{ net_name }}"
 
 networks:
-  app_network:
+  "{{ net_name }}":
     external: true

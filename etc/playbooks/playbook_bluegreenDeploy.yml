@@ -3,4 +3,5 @@
   become: "{{ should_become | default(yes) }}"
   roles:
     - host
-#    - app
+    - sharedApps
+    - app
