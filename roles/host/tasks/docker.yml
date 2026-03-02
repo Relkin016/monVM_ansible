@@ -46,12 +46,6 @@
     state: latest
     update_cache: true
 
-- name: Start and enable service docker
-  ansible.builtin.service:
-    name: docker
-    enabled: yes
-    state: started
-
 - name: Create docker group
   group:
     name: "{{ docker_group }}"
@@ -61,3 +55,4 @@
   user:
     name: "{{ new_user }}"
     group: "{{ docker_group }}"
+  notify: Setup docker

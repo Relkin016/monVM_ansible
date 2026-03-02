@@ -1,0 +1,7 @@
+- name: Setup SSH daemon
+  include_tasks: ssh.yml
+  listen: Setup SSH daemon
+
+- name: Test'n'run docker ver
+  include_tasks: docker.yml
+  listen: Setup docker

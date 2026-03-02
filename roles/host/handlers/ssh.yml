@@ -1,0 +1,5 @@
+- name: Setup SSH daemon
+  service:
+    name: ssh
+    enabled: yes
+    state: started

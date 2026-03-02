@@ -1,1 +1,14 @@
-- name: Add dev network
+- name: Get docker ver
+  command: docker --version
+  register: docker_check
+  changed_when: false
+
+- name: Show docker ver
+  debug:
+    msg: "Docker ver: {{ docker_check.stdout }}"
+
+- name: Setup docker daemon
+  service:
+    name: docker
+    enabled: yes
+    state: started

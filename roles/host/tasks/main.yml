@@ -1,3 +1,0 @@
-docker_group: docker
-new_user: "ansible"
-ssh_key: "~/.ssh/id_rsa.pub"
