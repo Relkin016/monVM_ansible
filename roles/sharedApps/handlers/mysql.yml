@@ -1,3 +1,15 @@
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: _docker_build
+  register: temp_dir
+
+- name: Copy build context to temp directory
+  ansible.builtin.copy:
+    src: mysql/
+    dest: "{{ temp_dir.path }}/"
+    mode: '0755'
+
 - name: Build Docker image
   community.docker.docker_image:
     name: my_app:{{ ansible_date_time.epoch }}
@@ -5,7 +17,6 @@
       path: "{{ temp_dir.path }}"
     source: build
     state: present
-
 
 - name: Remove temporary build directory
   ansible.builtin.file:

@@ -6,3 +6,6 @@
 
 - name: Install Docker
   include_tasks: docker.yml
+
+- name: Do other things
+  include_tasks: additional.yml

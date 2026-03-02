@@ -1,0 +1,8 @@
+- name: Install useful application
+  apt:
+    name:
+      - htop
+      - tree
+      - mc
+    state: latest
+    update_cache: true
