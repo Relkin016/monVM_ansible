@@ -7,3 +7,7 @@
       - net-tools
     state: latest
     update_cache: true
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled

@@ -21,3 +21,4 @@
       - subnet: "{{ docker_network }}.0/24"
         gateway: "{{ docker_network }}.1"
     state: present
+

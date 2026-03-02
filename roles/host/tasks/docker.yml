@@ -46,6 +46,10 @@
     state: latest
     update_cache: true
 
+- name: Install docker python library
+  ansible.builtin.pip:
+    name: docker
+
 - name: Create docker group
   group:
     name: "{{ docker_group }}"
