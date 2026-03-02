@@ -1,35 +1,28 @@
----
-- name: Создание и настройка системного пользователя Ansible
-  hosts: all
-  become: yes  # Выполняем от root через твоего текущего юзера
-  vars:
-    new_user: "ansible"
-    # Укажи путь к СВОЕМУ публичному ключу на локальной машине
-    ssh_key_path: "~/.ssh/id_rsa.pub"
+- name: Create New Group
+  group:
+    name: "{{ new_user }}"
+    state: present
 
-  tasks:
-    - name: 1. Создать группу для пользователя
-      group:
-        name: "{{ new_user }}"
-        state: present
+- name: Create new usr
+  user:
+    name: "{{ new_user }}"
+    group: "{{ new_user }}"
+    shell: /bin/bash
+    create_home: yes
+    state: present
 
-    - name: 2. Создать пользователя с домашней директорией
-      user:
-        name: "{{ new_user }}"
-        group: "{{ new_user }}"
-        shell: /bin/bash
-        create_home: yes
-        state: present
+- name: Setup sudo config
+  copy:
+    content: "{{ new_user }} ALL=(ALL) NOPASSWD:ALL"
+    dest: "/etc/sudoers.d/{{ new_user }}"
+    mode: '0440'
+    validate: '/usr/sbin/visudo -cf %s'
 
-    - name: 3. Настройка sudo без пароля (Passwordless sudo)
-      copy:
-        content: "{{ new_user }} ALL=(ALL) NOPASSWD:ALL"
-        dest: "/etc/sudoers.d/{{ new_user }}"
-        mode: '0440'
-        validate: '/usr/sbin/visudo -cf %s'
-
-    - name: 4. Добавление твоего SSH-ключа в authorized_keys
-      authorized_key:
-        user: "{{ new_user }}"
-        state: present
-        key: "{{ lookup('file', ssh_key_path) }}"
+- name: Add authorized keys
+  authorized_key:
+    user: "{{ new_user }}"
+    state: present
+    key: "{{ item }}"
+    loop:
+      - yubikey_piv.pub
+      - "{{ lookup('file', ssh_key) }}"
