@@ -4,4 +4,4 @@
   roles:
     - host
     - sharedApps
-    - app
+#    - app
