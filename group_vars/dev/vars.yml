@@ -1,1 +1,1 @@
-ansible_user: root
+bootstrap_user: root

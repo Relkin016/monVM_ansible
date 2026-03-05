@@ -1,7 +1,25 @@
 - hosts: all
   remote_user: ansible
   become: yes
+
+  pre_tasks:
+    - name: Try to connect as permanent user (relkin)
+      ansible.builtin.wait_for_connection:
+        timeout: 5
+      ignore_errors: true
+      register: conn_test
+
+    - name: Switch to bootstrap user if permanent user is not available
+      ansible.builtin.set_fact:
+        ansible_user: "{{ bootstrap_user }}"
+      when:
+        - conn_test.failed
+        - bootstrap_user is defined
+
+    - name: Now gather facts with the correct user
+      ansible.builtin.setup:
+
   roles:
     - host
     - sharedApps
-#    - app
+  #    - app

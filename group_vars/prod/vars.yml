@@ -1,1 +1,1 @@
-ansible_user: ansible
+bootstrap_user: relkin
