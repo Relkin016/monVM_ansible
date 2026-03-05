@@ -3,7 +3,7 @@
   become: yes
   gather_facts: false
   pre_tasks:
-    - name: Try to connect as permanent user (relkin)
+    - name: Try to connect as permanent user
       ansible.builtin.wait_for_connection:
         timeout: 5
       ignore_errors: true
