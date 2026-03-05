@@ -22,7 +22,7 @@
   ansible.posix.authorized_key:
     user: "{{ new_user }}"
     state: present
-    key: "{{ lookup('file', item) }}"
+    key: "{{ lookup('ansible.builtin.file', item | expanduser) }}"
   loop:
-    - yubikey_piv.pub
+    - "yubikey_piv.pub"
     - "{{ ssh_key | default('~/.ssh/id_rsa.pub') }}"

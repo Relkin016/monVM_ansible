@@ -43,6 +43,7 @@
       - containerd.io
       - docker-compose
       - docker-compose-plugin
+      - python3-docker
     state: latest
     update_cache: true
 
