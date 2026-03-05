@@ -15,6 +15,10 @@
       when:
         - conn_test.failed
         - bootstrap_user is defined
+
+    - name: Now gather facts with the correct user
+      ansible.builtin.setup:
+
   roles:
     - host
     - sharedApps
