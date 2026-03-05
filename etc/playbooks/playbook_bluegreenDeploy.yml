@@ -18,8 +18,3 @@
 
     - name: Now gather facts with the correct user
       ansible.builtin.setup:
-
-  roles:
-    - host
-    - sharedApps
-  #    - app
