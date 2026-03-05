@@ -1,25 +1,42 @@
 - hosts: all
-  remote_user: ansible
-  become: yes
   gather_facts: false
+  become: yes
+
   pre_tasks:
-    - name: Try to connect as permanent user
+    - name: "Try users in order: relkin -> ansible -> bootstrap"
       ansible.builtin.wait_for_connection:
-        timeout: 5
+        timeout: 3
       ignore_errors: true
-      register: conn_test
+      register: auth_results
+      loop:
+        - relkin
+        - ansible
+        - "{{ bootstrap_user | default('root') }}"
+      loop_control:
+        loop_var: try_user
+      vars:
+        ansible_user: "{{ try_user }}"
+      when: found_user_name is not defined or found_user_name == ""
 
-    - name: Switch to bootstrap user if permanent user is not available
+    - name: "Set the first successful user as ansible_user"
       ansible.builtin.set_fact:
-        ansible_user: "{{ bootstrap_user }}"
+        ansible_user: "{{ item.try_user }}"
+        found_user_name: "{{ item.try_user }}"
+      loop: "{{ auth_results.results }}"
+      # Фильтруем только тот результат, который не провалился
       when:
-        - conn_test.failed
-        - bootstrap_user is defined
+        - item.failed is not defined or not item.failed
+        - item.skipped is not defined or not item.skipped
+        - found_user_name is not defined
 
-    - name: Now gather facts with the correct user
+    - name: "Fail if no users could connect"
+      ansible.builtin.fail:
+        msg: "Could not connect with any of the attempted users."
+      when: found_user_name is not defined
+
+    - name: "Now gather facts with: {{ ansible_user }}"
       ansible.builtin.setup:
 
   roles:
     - host
     - sharedApps
-    #    - app
