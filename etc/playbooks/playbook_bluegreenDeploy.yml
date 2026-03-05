@@ -1,6 +1,6 @@
 - hosts: all
   remote_user: ansible
-  become: "{{ should_become | default(yes) }}"
+  become: yes
   roles:
     - host
       tags: setup_host
