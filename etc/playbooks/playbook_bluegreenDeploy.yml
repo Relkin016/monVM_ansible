@@ -3,5 +3,6 @@
   become: "{{ should_become | default(yes) }}"
   roles:
     - host
+      tags: setup_host
     - sharedApps
 #    - app
