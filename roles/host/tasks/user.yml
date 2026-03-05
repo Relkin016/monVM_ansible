@@ -19,10 +19,10 @@
     validate: '/usr/sbin/visudo -cf %s'
 
 - name: Add authorized keys
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ new_user }}"
     state: present
-    key: "{{ item }}"
-    loop:
-      - yubikey_piv.pub
-      - "{{ lookup('file', ssh_key) }}"
+    key: "{{ lookup('file', item) }}"
+  loop:
+    - yubikey_piv.pub
+    - "{{ ssh_key | default('~/.ssh/id_rsa.pub') }}"
