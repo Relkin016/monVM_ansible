@@ -1,9 +1,8 @@
 [dev]
-lxc_pve ansible_host="{{ lxc_pve }}"
-blueAppDev ansible_host="{{ blueAppDev }}"
-greenAppDev ansible_host="{{ greenAppDev }}"
+lxc ansible_host="{{ lxc_pve }}"
+dokcerDev ansible_host="{{ blueAppDev }}"
+
 
 [prod]
 appVM ansible_host="{{ appVM }}"
-blueAppProd ansible_host="{{ blueAppProd }}"
-greenAppProd ansible_host="{{ greenAppProd }}"
+dockerProd ansible_host="{{ blueAppProd }}"
