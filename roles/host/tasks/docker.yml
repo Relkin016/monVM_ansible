@@ -51,6 +51,7 @@
 - name: Install docker python library
   ansible.builtin.pip:
     name: docker
+# TODO Fix error with pip
 
 - name: Create docker group
   group:

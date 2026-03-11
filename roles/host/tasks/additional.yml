@@ -11,3 +11,5 @@
 - name: Enable UFW
   community.general.ufw:
     state: enabled
+
+# TODO Try to change task for changing user to ansible on group_vars
