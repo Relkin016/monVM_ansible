@@ -1,0 +1,26 @@
+- hosts: all
+  gather_facts: false
+  become: yes
+  pre_tasks:
+  - name: "Try users in order: relkin -> ansible -> bootstrap"
+    ansible.builtin.wait_for_connection:
+      timeout: 3
+    ignore_errors: true
+    register: auth_results
+    loop: [ 'relkin', 'ansible', "{{ bootstrap_user | default('root') }}" ]
+    loop_control:
+      loop_var: try_user
+    vars:
+      ansible_user: "{{ try_user }}"
+    when: found_user is not defined
+
+  - name: "Set acting user for bootstrap"
+    ansible.builtin.set_fact:
+      ansible_user: "{{ item.try_user }}"
+      found_user: true
+    loop: "{{ auth_results.results }}"
+    when:
+      - item.failed is not defined or not item.failed
+      - found_user is not defined
+  roles:
+    - host

@@ -1,0 +1,7 @@
+- name: "MAIN: Configure services"
+  hosts: all
+  become: yes
+  
+  roles:
+    - sharedApps
+    - app
