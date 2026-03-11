@@ -16,7 +16,7 @@ services:
 
   fpm_blue:
     build:
-      context: .
+      context: ../files
       args:
         - PHP_DIR=${PHP_DIR}
         - FPM_PORT=${FPM_PORT}
