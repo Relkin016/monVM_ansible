@@ -1,4 +1,4 @@
-- name: "MAIN: Configure services"
+- name: "Install app"
   hosts: all
   become: yes
   
